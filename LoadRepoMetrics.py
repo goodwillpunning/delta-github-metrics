@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %pip install ghapi
+
+# COMMAND ----------
+
 # DBTITLE 1,Libraries
 from ghapi.core import GhApi
 import datetime
@@ -44,7 +48,7 @@ def list_collaborators(owner, repo, token):
 # COMMAND ----------
 
 # DBTITLE 1,List Repos
-star# Grab delta.io repos information from GitHub API
+# Grab delta.io repos information from GitHub API
 repos = ghapi.repos.list_for_org(GITHUB_ORG_NAME)
 
 # Parse repos information into a meaningful table structure
