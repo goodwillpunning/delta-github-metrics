@@ -3,19 +3,14 @@
 
 # COMMAND ----------
 
-# DBTITLE 1,Libraries
-from ghapi.core import GhApi
-import datetime
+# DBTITLE 1,Load Config
+# MAGIC %run ./Config
 
 # COMMAND ----------
 
-# DBTITLE 1,Global Vars
-GITHUB_ORG_NAME = 'delta-io'
-GITHUB_REPO_NAME = 'delta'
-DATABRICKS_SECRETS_SCOPE = 'demo'
-DATABRICKS_SECRETS_NAME = 'delta-github-metrics-pat'
-TARGET_SCHEMA_NAME = 'delta_github_metrics'
-REPOS_TABLE_NAME = 'repos'
+# DBTITLE 1,Libraries
+from ghapi.core import GhApi
+import datetime
 
 # COMMAND ----------
 
@@ -39,8 +34,7 @@ def list_collaborators(owner, repo, token):
   """Returns a list of collaborators for a given repo."""
   try:
     ghapi = GhApi(token)
-    ghapi.repos.list_collaborators(owner, repo)
-    collaborators = ['UserA', 'UserB', 'UserC']
+    collaborators = ghapi.repos.list_collaborators(owner, repo)
   except:
     collaborators = []
   return collaborators
@@ -81,7 +75,3 @@ display(
     from {TARGET_SCHEMA_NAME}.{REPOS_TABLE_NAME}
   """)
 )
-
-# COMMAND ----------
-
-
