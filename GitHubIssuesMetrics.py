@@ -71,12 +71,11 @@ for REPO in REPOS:
         'url': issue['html_url'],
         'id': issue['id'],
         'title': issue['title'],
-        #'milestone': issue['milestone'],
         'created_at': issue['created_at'],
         'updated_at': issue['updated_at'],
         'user': issue['user']['login'],
         'user_url': issue['user']['html_url'],
-        #'label': issue['label'],
+        'labels': [label['name'] for label in issue['labels']],
         'total_reactions': issue['reactions']['total_count']
       
       } for issue in issues if not issue.__contains__("pull_request")]
@@ -84,5 +83,16 @@ for REPO in REPOS:
       page += 1
     else:
       loop_var = False
-  issues_df = spark.createDataFrame(final_issues_list, 'number integer, state string, url string, id string, title string, created_at string, updated_at string, user string, user_url string, total_reactions string')
-  issues_df.write.format('delta').mode('overwrite').saveAsTable(f"{TARGET_SCHEMA_NAME}.{REPO.replace('-', '_')}_complete_issues")
+  
+  issues_df = spark.createDataFrame(final_issues_list, 'number integer, state string, url string, id string, title string, created_at string, updated_at string, user string, user_url string, labels array<string>, total_reactions string')
+  
+  # overwrite Delta table
+  issues_df.write\
+           .format('delta')\
+           .mode('overwrite')\
+           .option('mergeSchema', True)\
+           .saveAsTable(f"{TARGET_SCHEMA_NAME}.{REPO.replace('-', '_')}_complete_issues")
+
+# COMMAND ----------
+
+

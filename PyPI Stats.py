@@ -17,15 +17,14 @@ def makeRepoDataFrame(repo):
 
 # DBTITLE 1,Create DataFrame for each repo
 import pypistats
-overall_delta_df, recent_delta_df = makeRepoDataFrame("delta")
 overall_deltalake_df, recent_deltalake_df = makeRepoDataFrame("deltalake")
 overall_deltaspark_df, recent_deltaspark_df = makeRepoDataFrame("delta-spark")
 
 # COMMAND ----------
 
 # DBTITLE 1,Combine DataFrames
-overall_complete_df = overall_delta_df.union(overall_deltalake_df).union(overall_deltaspark_df)
-recent_complete_df = recent_delta_df.union(recent_deltalake_df).union(recent_deltaspark_df)
+overall_complete_df = overall_deltalake_df.union(overall_deltaspark_df)
+recent_complete_df = recent_deltalake_df.union(recent_deltaspark_df)
 
 # COMMAND ----------
 
