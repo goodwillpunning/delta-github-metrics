@@ -73,10 +73,6 @@ pr_comments_df = spark.createDataFrame(final_comments_list, 'repo string, pull_r
 
 # COMMAND ----------
 
-display(pr_comments_df)
-
-# COMMAND ----------
-
 pr_comments_df.createOrReplaceTempView("open_pull_request_comments")
 spark.sql(f"""
 MERGE INTO {TARGET_SCHEMA_NAME}.pull_request_comments as target

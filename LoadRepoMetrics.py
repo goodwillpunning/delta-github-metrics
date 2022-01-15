@@ -66,12 +66,3 @@ repos_df = spark.createDataFrame(parsed_repos_list, 'id long, owner string, owne
 
 # Write delta.io repos information to a managed Delta table
 repos_df.write.format('delta').mode('overwrite').saveAsTable('%s.%s' % (TARGET_SCHEMA_NAME, REPOS_TABLE_NAME))
-
-# COMMAND ----------
-
-display(
-  spark.sql(f"""
-  select *
-    from {TARGET_SCHEMA_NAME}.{REPOS_TABLE_NAME}
-  """)
-)

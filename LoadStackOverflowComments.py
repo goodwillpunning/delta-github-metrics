@@ -40,11 +40,6 @@ questions_df = spark.createDataFrame(parsed_questions_list, 'id long, tags strin
 
 # COMMAND ----------
 
-# DBTITLE 1,Visualize StackOverflow Questions Matching Keywords
-display(questions_df)
-
-# COMMAND ----------
-
 # DBTITLE 1,Save as a Delta Table
 # Write Stack Overflow questions to a managed Delta table
 questions_df.write.format('delta').mode('overwrite').saveAsTable('%s.%s' % (TARGET_SCHEMA_NAME, STACK_OVERFLOW_TABLE_NAME))
